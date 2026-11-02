@@ -8,7 +8,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { WebBadge } from "@/components/web-badge";
 
-import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
+import { MaxContentWidth, Spacing } from "@/constants/theme";
 
 function getDevMenuHint() {
   if (Platform.OS === "web") {
@@ -34,22 +34,30 @@ function getDevMenuHint() {
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      lightColor="#ffffff"
+      darkColor="#ffffff"
+      style={styles.container}
+    >
       <SafeAreaView style={styles.safeArea}>
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          <ThemedView style={styles.heroSection}>
+          <ThemedView
+            lightColor="#ffffff"
+            darkColor="#ffffff"
+            style={styles.heroSection}
+          >
             <AnimatedIcon />
 
-            <ThemedText type="title" style={styles.title}>
+            <ThemedText type="title" style={[styles.title, styles.darkText]}>
               Welcome To&nbsp;Expo Go
             </ThemedText>
           </ThemedView>
 
-          <ThemedText type="code" style={styles.code}>
+          <ThemedText type="code" style={[styles.code, styles.darkText]}>
             get started
           </ThemedText>
 
@@ -84,20 +92,20 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    flexDirection: "row",
+    backgroundColor: "#100d0d",
   },
 
   safeArea: {
     flex: 1,
+    width: "100%",
+    backgroundColor: "#ffffff",
     paddingHorizontal: Spacing.four,
-    paddingBottom: BottomTabInset + Spacing.three,
     maxWidth: MaxContentWidth,
   },
 
   scrollView: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "#ffffff",
   },
 
   scrollContent: {
@@ -106,16 +114,23 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingTop: 8,
     paddingBottom: 20,
+    backgroundColor: "#ffffff",
   },
+
   heroSection: {
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: Spacing.four,
     gap: Spacing.two,
+    backgroundColor: "#ffffff",
   },
 
   title: {
     textAlign: "center",
+  },
+
+  darkText: {
+    color: "#111111",
   },
 
   code: {
