@@ -3,7 +3,6 @@ import { Platform, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AnimatedIcon } from "@/components/animated-icon";
-import { HintRow } from "@/components/hint-row";
 import ProfileCard from "@/components/ProfileCard";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
@@ -60,20 +59,21 @@ export default function HomeScreen() {
             photoUrl={require("../../Photo.jpeg")}
           />
 
-          <ThemedView type="backgroundElement" style={styles.stepContainer}>
-            <HintRow
-              title="Try editing"
-              hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-            />
+          {/*
+<ThemedView type="backgroundElement" style={styles.stepContainer}>
+  <HintRow
+    title="Try editing"
+    hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+  />
 
-            <HintRow title="Dev tools" hint={getDevMenuHint()} />
+  <HintRow title="Dev tools" hint={getDevMenuHint()} />
 
-            <HintRow
-              title="Fresh start"
-              hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-            />
-          </ThemedView>
-
+  <HintRow
+    title="Fresh start"
+    hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+  />
+</ThemedView>
+*/}
           {Platform.OS === "web" && <WebBadge />}
         </ScrollView>
       </SafeAreaView>
