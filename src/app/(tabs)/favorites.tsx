@@ -3,15 +3,15 @@ import { useCallback, useEffect, useState } from "react";
 import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import EmptyState from "../components/EmptyState";
-import ErrorMessage from "../components/ErrorMessage";
-import LoadingScreen from "../components/LoadingScreen";
-import ProductCard from "../components/ProductCard";
+import EmptyState from "../../components/EmptyState";
+import ErrorMessage from "../../components/ErrorMessage";
+import LoadingScreen from "../../components/LoadingScreen";
+import ProductCard from "../../components/ProductCard";
 
-import { Colors } from "../constants/colors";
-import { useFavorites } from "../hooks/useFavorites";
-import { getProductById } from "../services/productService";
-import { Product } from "../types/product";
+import { Colors } from "../../constants/colors";
+import { useFavorites } from "../../hooks/useFavorites";
+import { getProductById } from "../../services/productService";
+import { Product } from "../../types/product";
 
 export default function FavoritesScreen() {
   const { favorites, isLoading, isFavorite, toggleFavorite } = useFavorites();
