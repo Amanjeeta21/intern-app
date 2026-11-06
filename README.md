@@ -1,56 +1,181 @@
-# Welcome to your Expo app 👋
+# Product Catalog
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application for browsing products, viewing product details, managing favorites, and adding personal photos. Built with Expo and TypeScript, with support for persistent storage, light/dark themes, cloud builds, and over-the-air updates.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Product Listing:** Fetch and display products from the DummyJSON API.
+- **Search & Categories:** Search products and filter them by category.
+- **Product Details:** View product information and browse product images.
+- **Favorites:** Add or remove products from favorites with persistent storage.
+- **Photo Picker:** Capture or select personal photos using the device camera or gallery.
+- **Theme Switching:** Toggle between light and dark themes.
+- **Persistent Preferences:** Save favorites, theme preferences, and supported app data using AsyncStorage.
+- **Loading & Error States:** Display loading indicators, empty states, error messages, and retry options.
+- **Pull to Refresh:** Refresh the product listing.
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+| Technology         | Purpose                                  |
+| ------------------ | ---------------------------------------- |
+| React Native       | Cross-platform mobile development        |
+| Expo SDK 58        | Development and native app tooling       |
+| TypeScript         | Type safety                              |
+| Expo Router        | File-based navigation                    |
+| React Context API  | Shared favorites and theme state         |
+| React Hooks        | Component state and lifecycle management |
+| AsyncStorage       | Persistent local storage                 |
+| Expo Image Picker  | Camera and gallery access                |
+| DummyJSON REST API | Product data                             |
+| StyleSheet         | Component styling                        |
+| EAS Build          | Cloud Android builds                     |
+| EAS Update         | Over-the-air updates                     |
+| Gradle             | Local Android builds                     |
 
-   ```bash
-   npx expo start
-   ```
+## Project Setup
 
-In the output, you'll find options to open the app in a
+### Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js and npm
+- Expo Go (for development)
+- Android device or emulator
+- Expo account (for EAS builds)
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Installation
 
-## Get a fresh project
-
-When you're ready, run:
+Clone the repository:
 
 ```bash
-npm run reset-project
+git clone https://github.com/Amanjeeta21/intern-app.git
+cd intern-app
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Install dependencies:
 
-### Other setup steps
+```bash
+npm install
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### Environment Variables
 
-## Learn more
+Create a `.env` file in the project root using the following configuration:
 
-To learn more about developing your project with Expo, look at the following resources:
+```env
+EXPO_PUBLIC_API_URL=https://dummyjson.com
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Refer to `.env.example` for the required configuration.
 
-## Join the community
+Start the development server:
 
-Join our community of developers creating universal apps.
+```bash
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Builds
+
+### Local Gradle Build
+
+Generate the native Android project if required:
+
+```bash
+npx expo prebuild --platform android
+```
+
+Navigate to the Android directory:
+
+```bash
+cd android
+```
+
+Build a release APK:
+
+```bash
+.\gradlew.bat assembleRelease
+```
+
+The generated APK is located at:
+
+```text
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+### EAS Cloud Builds
+
+Configure EAS:
+
+```bash
+eas build:configure
+```
+
+Log in:
+
+```bash
+eas login
+```
+
+EAS uses three build profiles:
+
+| Profile     | Purpose                                  | Output         |
+| ----------- | ---------------------------------------- | -------------- |
+| development | Development client for testing           | Internal build |
+| preview     | Internal distribution and device testing | APK            |
+| production  | Play Store release                       | AAB            |
+
+Build a preview APK:
+
+```bash
+eas build --platform android --profile preview
+```
+
+Build a production Android App Bundle:
+
+```bash
+eas build --platform android --profile production
+```
+
+### Over-the-Air Updates
+
+Publish JavaScript and asset updates without requiring users to reinstall the application:
+
+```bash
+eas update --channel preview --message "Update description"
+```
+
+OTA updates can modify JavaScript logic, styles, and bundled assets. Changes involving native code, native dependencies, permissions, or native configuration require a new binary build.
+
+### Gradle vs EAS
+
+| Aspect          | Local Gradle                                      | EAS Build                              |
+| --------------- | ------------------------------------------------- | -------------------------------------- |
+| Build location  | Local machine                                     | Expo cloud                             |
+| Setup           | Requires Android SDK, JDK, and Gradle environment | Requires Expo account and EAS CLI      |
+| Build speed     | Depends on local hardware and caching             | Depends on cloud queue and build time  |
+| Cost            | No Expo cloud build usage                         | Subject to EAS plan limits             |
+| Signing         | Local signing configuration                       | EAS-managed or configured credentials  |
+| Reproducibility | Environment-dependent                             | Consistent cloud build environment     |
+| CI/CD           | Requires pipeline configuration                   | Integrates with EAS workflows          |
+| Best suited for | Native debugging and offline builds               | Team builds, CI/CD, and store releases |
+
+**When to use which?**
+
+- **Gradle:** Useful for debugging native Android issues, working offline, and having direct control over local builds.
+- **EAS:** Useful for cloud builds, consistent build environments, team collaboration, and production releases.
+
+Note: APKs signed with different signing keys generally cannot update one another as existing installations. Android may report `INSTALL_FAILED_UPDATE_INCOMPATIBLE`.
+
+## Preview APK
+
+[Product Catalog – Preview APK](https://expo.dev/accounts/amanjeeta/projects/product-catalog/builds/8d62544d-990c-4916-a036-cf068ff8f8c5)
+
+## Screenshots
+
+Screenshots will be added here.
+
+## Project Information
+
+- **Platform:** Android
+- **Package Name:** `com.amanjeeta.productcatalog`
+- **App Version:** 1.0.1
+- **Android Version Code:** 2
+- **Build System:** Gradle and Expo Application Services (EAS)
