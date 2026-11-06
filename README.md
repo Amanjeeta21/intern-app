@@ -170,7 +170,29 @@ Note: APKs signed with different signing keys generally cannot update one anothe
 
 ## Screenshots
 
-Screenshots will be added here.
+### Products — Dark Mode
+
+![Products Dark Mode](assets/screenshots/img1.jpeg)
+
+### Products — Light Mode
+
+![Products Light Mode](assets/screenshots/img2.jpeg)
+
+### Favorites
+
+![Favorites](assets/screenshots/img3.jpeg)
+
+### Product Image
+
+![Product Image](assets/screenshots/img4.jpeg)
+
+### Camera Options
+
+![Camera Options](assets/screenshots/img5.jpeg)
+
+### Product Details
+
+![Product Details](assets/screenshots/img6.jpeg)
 
 ## Project Information
 
