@@ -1,21 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-import { Colors } from "../../constants/colors";
+import { useAppTheme } from "../../context/ThemeContext";
 import { useFavorites } from "../../hooks/useFavorites";
 
 export default function TabsLayout() {
   const { favorites } = useFavorites();
+  const { colors } = useAppTheme();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Colors.accent,
-        tabBarInactiveTintColor: Colors.muted,
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
-          backgroundColor: Colors.card,
-          borderTopColor: Colors.border,
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
           height: 65,
           paddingTop: 7,
           paddingBottom: 8,
@@ -23,6 +24,10 @@ export default function TabsLayout() {
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: "600",
+        },
+        tabBarBadgeStyle: {
+          backgroundColor: colors.accent,
+          color: "#FFFFFF",
         },
       }}
     >
@@ -33,12 +38,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused, size }) => (
             <Ionicons
               name="grid-outline"
-              color={focused ? Colors.accent : Colors.muted}
+              color={focused ? colors.accent : colors.muted}
               size={size}
             />
           ),
         }}
       />
+
       <Tabs.Screen
         name="favorites"
         options={{
@@ -47,7 +53,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused, size }) => (
             <Ionicons
               name="heart-outline"
-              color={focused ? Colors.accent : Colors.muted}
+              color={focused ? colors.accent : colors.muted}
               size={size}
             />
           ),

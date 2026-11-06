@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -8,13 +8,17 @@ import ErrorMessage from "../../components/ErrorMessage";
 import LoadingScreen from "../../components/LoadingScreen";
 import ProductCard from "../../components/ProductCard";
 
-import { Colors } from "../../constants/colors";
+import { ThemeColors } from "../../constants/colors";
+import { useAppTheme } from "../../context/ThemeContext";
 import { useFavorites } from "../../hooks/useFavorites";
 import { getProductById } from "../../services/productService";
 import { Product } from "../../types/product";
 
 export default function FavoritesScreen() {
   const { favorites, isLoading, isFavorite, toggleFavorite } = useFavorites();
+  const { colors } = useAppTheme();
+
+  const styles = useMemo(() => createStyles(colors), [colors]);
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,7 +91,7 @@ export default function FavoritesScreen() {
               setRefreshing(true);
               loadFavoriteProducts();
             }}
-            tintColor={Colors.accent}
+            tintColor={colors.accent}
           />
         }
         ListHeaderComponent={
@@ -124,37 +128,39 @@ export default function FavoritesScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  list: {
-    paddingHorizontal: 10,
-    paddingBottom: 24,
-    flexGrow: 1,
-  },
-  row: {
-    gap: 12,
-  },
-  header: {
-    paddingTop: 20,
-    paddingBottom: 18,
-  },
-  heading: {
-    color: Colors.text,
-    fontSize: 25,
-    fontWeight: "900",
-    letterSpacing: 1.2,
-  },
-  subtitle: {
-    color: Colors.muted,
-    fontSize: 13,
-    marginTop: 6,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: Colors.border,
-    marginTop: 17,
-  },
-});
+function createStyles(colors: typeof ThemeColors.dark) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    list: {
+      paddingHorizontal: 10,
+      paddingBottom: 24,
+      flexGrow: 1,
+    },
+    row: {
+      gap: 12,
+    },
+    header: {
+      paddingTop: 20,
+      paddingBottom: 18,
+    },
+    heading: {
+      color: colors.text,
+      fontSize: 25,
+      fontWeight: "900",
+      letterSpacing: 1.2,
+    },
+    subtitle: {
+      color: colors.muted,
+      fontSize: 13,
+      marginTop: 6,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+      marginTop: 17,
+    },
+  });
+}

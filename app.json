@@ -7,11 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "internapp",
     "userInterfaceStyle": "automatic",
-
     "ios": {
       "icon": "./assets/expo.icon"
     },
-
     "android": {
       "package": "com.amanjeeta.productcatalog",
       "versionCode": 2,
@@ -23,12 +21,10 @@
       },
       "predictiveBackGestureEnabled": false
     },
-
     "web": {
       "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
-
     "plugins": [
       "expo-router",
       [
@@ -48,10 +44,26 @@
         }
       ]
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "bc4b13eb-96f5-43f4-8e2c-365d88ddb106"
+      }
+    },
+    "owner": "amanjeeta",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bc4b13eb-96f5-43f4-8e2c-365d88ddb106"
     }
   }
 }

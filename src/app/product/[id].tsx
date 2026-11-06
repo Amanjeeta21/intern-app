@@ -19,7 +19,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import ErrorMessage from "../../components/ErrorMessage";
 import LoadingScreen from "../../components/LoadingScreen";
-import { Colors } from "../../constants/colors";
+import { ThemeColors } from "../../constants/colors";
+import { useAppTheme } from "../../context/ThemeContext";
 import { useFavorites } from "../../hooks/useFavorites";
 import {
   getProductPhoto,
@@ -33,6 +34,10 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function ProductDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { colors } = useAppTheme();
+
+  const styles = createStyles(colors);
+
   console.log("Product Details Route Opened. ID:", id);
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -229,7 +234,7 @@ export default function ProductDetailsScreen() {
         {/* Top navigation */}
         <View style={styles.topBar}>
           <Pressable onPress={() => router.back()} style={styles.iconButton}>
-            <Ionicons name="arrow-back" size={23} color={Colors.text} />
+            <Ionicons name="arrow-back" size={23} color={colors.text} />
           </Pressable>
 
           <Text style={styles.topTitle}>PRODUCT DETAILS</Text>
@@ -241,7 +246,7 @@ export default function ProductDetailsScreen() {
             <Ionicons
               name={favorite ? "heart" : "heart-outline"}
               size={24}
-              color={favorite ? Colors.accent : Colors.text}
+              color={favorite ? colors.accent : colors.text}
             />
           </Pressable>
         </View>
@@ -301,7 +306,7 @@ export default function ProductDetailsScreen() {
             />
           ) : (
             <View style={styles.photoPlaceholder}>
-              <Ionicons name="image-outline" size={40} color={Colors.muted} />
+              <Ionicons name="image-outline" size={40} color={colors.muted} />
               <Text style={styles.placeholderText}>
                 No personal photo added yet
               </Text>
@@ -331,7 +336,7 @@ export default function ProductDetailsScreen() {
               style={styles.removePhotoButton}
               onPress={handleRemovePhoto}
             >
-              <Ionicons name="trash-outline" size={17} color={Colors.accent} />
+              <Ionicons name="trash-outline" size={17} color={colors.accent} />
               <Text style={styles.removePhotoText}>REMOVE PHOTO</Text>
             </Pressable>
           )}
@@ -439,7 +444,7 @@ export default function ProductDetailsScreen() {
           <Ionicons
             name={favorite ? "heart" : "heart-outline"}
             size={20}
-            color={favorite ? Colors.accent : Colors.text}
+            color={favorite ? colors.accent : colors.text}
           />
           <Text style={styles.wishlistText}>
             {favorite ? "SAVED" : "WISHLIST"}
@@ -456,308 +461,267 @@ export default function ProductDetailsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-
-  topBar: {
-    height: 55,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-  },
-
-  iconButton: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  topTitle: {
-    color: Colors.text,
-    fontSize: 13,
-    fontWeight: "bold",
-    letterSpacing: 1,
-  },
-
-  gallery: {
-    position: "relative",
-    backgroundColor: "#202020",
-  },
-
-  imageSlide: {
-    width: SCREEN_WIDTH,
-    height: 370,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  productImage: {
-    width: "100%",
-    height: "100%",
-  },
-
-  dots: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 6,
-    paddingVertical: 12,
-  },
-
-  dot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: "#666666",
-  },
-
-  activeDot: {
-    width: 18,
-    backgroundColor: Colors.accent,
-  },
-
-  discountBadge: {
-    position: "absolute",
-    bottom: 40,
-    left: 14,
-    backgroundColor: Colors.accent,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 5,
-  },
-
-  discountText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    fontSize: 11,
-  },
-
-  // Personal photo styles
-  personalPhotoSection: {
-    padding: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-
-  personalPhoto: {
-    width: "100%",
-    height: 220,
-    borderRadius: 10,
-    backgroundColor: "#202020",
-    marginBottom: 14,
-  },
-
-  photoPlaceholder: {
-    height: 160,
-    backgroundColor: Colors.card,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderStyle: "dashed",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    marginBottom: 14,
-  },
-
-  placeholderText: {
-    color: Colors.muted,
-    fontSize: 13,
-  },
-
-  photoButtonRow: {
-    flexDirection: "row",
-    gap: 10,
-  },
-
-  photoButton: {
-    flex: 1,
-    height: 45,
-    backgroundColor: Colors.accent,
-    borderRadius: 7,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-
-  photoButtonText: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-
-  removePhotoButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 7,
-    paddingTop: 15,
-  },
-
-  removePhotoText: {
-    color: Colors.accent,
-    fontSize: 11,
-    fontWeight: "bold",
-  },
-
-  // Existing product detail styles
-  details: {
-    padding: 18,
-  },
-
-  brand: {
-    color: Colors.text,
-    fontSize: 21,
-    fontWeight: "bold",
-  },
-
-  title: {
-    color: Colors.muted,
-    fontSize: 15,
-    marginTop: 6,
-    lineHeight: 22,
-  },
-
-  ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginTop: 14,
-  },
-
-  rating: {
-    color: Colors.warning,
-    fontWeight: "bold",
-    fontSize: 14,
-  },
-
-  ratingLabel: {
-    color: Colors.muted,
-    fontSize: 12,
-  },
-
-  divider: {
-    height: 1,
-    backgroundColor: Colors.border,
-    marginVertical: 19,
-  },
-
-  sectionTitle: {
-    color: Colors.text,
-    fontSize: 13,
-    fontWeight: "bold",
-    letterSpacing: 1,
-    marginBottom: 12,
-  },
-
-  priceRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: 9,
-  },
-
-  discountedPrice: {
-    color: Colors.text,
-    fontSize: 23,
-    fontWeight: "bold",
-  },
-
-  originalPrice: {
-    color: Colors.muted,
-    fontSize: 14,
-    textDecorationLine: "line-through",
-  },
-
-  discountPercentage: {
-    color: Colors.accent,
-    fontSize: 13,
-    fontWeight: "bold",
-  },
-
-  taxText: {
-    color: Colors.muted,
-    fontSize: 11,
-    marginTop: 7,
-  },
-
-  description: {
-    color: Colors.muted,
-    fontSize: 14,
-    lineHeight: 23,
-  },
-
-  infoRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 12,
-    paddingVertical: 11,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-
-  infoLabel: {
-    color: Colors.muted,
-    fontSize: 12,
-    flex: 1,
-  },
-
-  infoValue: {
-    color: Colors.text,
-    fontSize: 12,
-    flex: 1,
-    textAlign: "right",
-  },
-
-  bottomSpace: {
-    height: 20,
-  },
-
-  bottomBar: {
-    flexDirection: "row",
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    backgroundColor: Colors.card,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    gap: 12,
-  },
-
-  wishlistButton: {
-    flex: 1,
-    height: 48,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 7,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-
-  wishlistText: {
-    color: Colors.text,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-
-  stockButton: {
-    flex: 1.4,
-    height: 48,
-    backgroundColor: Colors.accent,
-    borderRadius: 7,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  stockButtonText: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-});
+function createStyles(colors: typeof ThemeColors.dark) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    topBar: {
+      height: 55,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 15,
+      backgroundColor: colors.background,
+    },
+    iconButton: {
+      width: 40,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    topTitle: {
+      color: colors.text,
+      fontSize: 13,
+      fontWeight: "bold",
+      letterSpacing: 1,
+    },
+    gallery: {
+      position: "relative",
+      backgroundColor: colors.secondary,
+    },
+    imageSlide: {
+      width: SCREEN_WIDTH,
+      height: 370,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    productImage: {
+      width: "100%",
+      height: "100%",
+    },
+    dots: {
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 6,
+      paddingVertical: 12,
+    },
+    dot: {
+      width: 7,
+      height: 7,
+      borderRadius: 4,
+      backgroundColor: colors.muted,
+    },
+    activeDot: {
+      width: 18,
+      backgroundColor: colors.accent,
+    },
+    discountBadge: {
+      position: "absolute",
+      bottom: 40,
+      left: 14,
+      backgroundColor: colors.accent,
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      borderRadius: 5,
+    },
+    discountText: {
+      color: "#FFFFFF",
+      fontWeight: "bold",
+      fontSize: 11,
+    },
+    personalPhotoSection: {
+      padding: 18,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    personalPhoto: {
+      width: "100%",
+      height: 220,
+      borderRadius: 10,
+      backgroundColor: colors.secondary,
+      marginBottom: 14,
+    },
+    photoPlaceholder: {
+      height: 160,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderStyle: "dashed",
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      marginBottom: 14,
+    },
+    placeholderText: {
+      color: colors.muted,
+      fontSize: 13,
+    },
+    photoButtonRow: {
+      flexDirection: "row",
+      gap: 10,
+    },
+    photoButton: {
+      flex: 1,
+      height: 45,
+      backgroundColor: colors.accent,
+      borderRadius: 7,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    photoButtonText: {
+      color: "#FFFFFF",
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    removePhotoButton: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 7,
+      paddingTop: 15,
+    },
+    removePhotoText: {
+      color: colors.accent,
+      fontSize: 11,
+      fontWeight: "bold",
+    },
+    details: {
+      padding: 18,
+      backgroundColor: colors.background,
+    },
+    brand: {
+      color: colors.text,
+      fontSize: 21,
+      fontWeight: "bold",
+    },
+    title: {
+      color: colors.muted,
+      fontSize: 15,
+      marginTop: 6,
+      lineHeight: 22,
+    },
+    ratingContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+      marginTop: 14,
+    },
+    rating: {
+      color: colors.warning,
+      fontWeight: "bold",
+      fontSize: 14,
+    },
+    ratingLabel: {
+      color: colors.muted,
+      fontSize: 12,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+      marginVertical: 19,
+    },
+    sectionTitle: {
+      color: colors.text,
+      fontSize: 13,
+      fontWeight: "bold",
+      letterSpacing: 1,
+      marginBottom: 12,
+    },
+    priceRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: 9,
+    },
+    discountedPrice: {
+      color: colors.text,
+      fontSize: 23,
+      fontWeight: "bold",
+    },
+    originalPrice: {
+      color: colors.muted,
+      fontSize: 14,
+      textDecorationLine: "line-through",
+    },
+    discountPercentage: {
+      color: colors.accent,
+      fontSize: 13,
+      fontWeight: "bold",
+    },
+    taxText: {
+      color: colors.muted,
+      fontSize: 11,
+      marginTop: 7,
+    },
+    description: {
+      color: colors.muted,
+      fontSize: 14,
+      lineHeight: 23,
+    },
+    infoRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      gap: 12,
+      paddingVertical: 11,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    infoLabel: {
+      color: colors.muted,
+      fontSize: 12,
+      flex: 1,
+    },
+    infoValue: {
+      color: colors.text,
+      fontSize: 12,
+      flex: 1,
+      textAlign: "right",
+    },
+    bottomSpace: {
+      height: 20,
+    },
+    bottomBar: {
+      flexDirection: "row",
+      paddingHorizontal: 14,
+      paddingVertical: 12,
+      backgroundColor: colors.card,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+      gap: 12,
+    },
+    wishlistButton: {
+      flex: 1,
+      height: 48,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 7,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    wishlistText: {
+      color: colors.text,
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    stockButton: {
+      flex: 1.4,
+      height: 48,
+      backgroundColor: colors.accent,
+      borderRadius: 7,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    stockButtonText: {
+      color: "#FFFFFF",
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+  });
+}

@@ -17,7 +17,8 @@ import ErrorMessage from "../../components/ErrorMessage";
 import LoadingScreen from "../../components/LoadingScreen";
 import ProductCard from "../../components/ProductCard";
 
-import { Colors } from "../../constants/colors";
+import { ThemeColors } from "../../constants/colors";
+import { useAppTheme } from "../../context/ThemeContext";
 import { useFavorites } from "../../hooks/useFavorites";
 import { getProducts } from "../../services/productService";
 import { Product } from "../../types/product";
@@ -31,11 +32,13 @@ export default function ProductsScreen() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { theme, colors, toggleTheme } = useAppTheme();
+
+  const themedStyles = useMemo(() => createStyles(colors), [colors]);
 
   const fetchProducts = useCallback(async () => {
     try {
       setError("");
-
       const data = await getProducts();
       setProducts(data);
     } catch (err) {
@@ -93,61 +96,86 @@ export default function ProductsScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={themedStyles.container} edges={["top"]}>
       <FlatList
         data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.list}
+        columnWrapperStyle={themedStyles.row}
+        contentContainerStyle={themedStyles.list}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={handleRefresh}
-            tintColor={Colors.accent}
+            tintColor={colors.accent}
           />
         }
         ListHeaderComponent={
           <View>
-            <Text style={styles.brandHeading}>PRODUCT CATALOG</Text>
-            <Text style={styles.heading}>Discover Products</Text>
-            <Text style={styles.subtitle}>Find something you love.</Text>
+            <View style={themedStyles.topBar}>
+              <Text style={themedStyles.brandHeading}>PRODUCT CATALOG</Text>
 
-            <TextInput
-              style={styles.search}
-              placeholder="Search products, brands..."
-              placeholderTextColor={Colors.muted}
-              value={search}
-              onChangeText={setSearch}
-            />
-
-            {search.length > 0 && (
-              <Pressable onPress={() => setSearch("")}>
-                <Ionicons name="close-circle" size={22} color="#A1A1AA" />
+              <Pressable
+                onPress={toggleTheme}
+                style={themedStyles.themeButton}
+                accessibilityRole="button"
+                accessibilityLabel={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              >
+                <Ionicons
+                  name={theme === "dark" ? "sunny-outline" : "moon-outline"}
+                  size={23}
+                  color={colors.accent}
+                />
               </Pressable>
-            )}
+            </View>
 
-            <Text style={styles.sectionTitle}>CATEGORIES</Text>
+            <Text style={themedStyles.heading}>Discover Products</Text>
+            <Text style={themedStyles.subtitle}>Find something you love.</Text>
+
+            <View style={themedStyles.searchContainer}>
+              <Ionicons name="search-outline" size={19} color={colors.muted} />
+
+              <TextInput
+                style={themedStyles.search}
+                placeholder="Search products, brands..."
+                placeholderTextColor={colors.muted}
+                value={search}
+                onChangeText={setSearch}
+              />
+
+              {search.length > 0 && (
+                <Pressable onPress={() => setSearch("")}>
+                  <Ionicons
+                    name="close-circle"
+                    size={22}
+                    color={colors.muted}
+                  />
+                </Pressable>
+              )}
+            </View>
+
+            <Text style={themedStyles.sectionTitle}>CATEGORIES</Text>
 
             <FlatList
               data={categories}
               horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item}
-              contentContainerStyle={styles.categoryList}
+              contentContainerStyle={themedStyles.categoryList}
               renderItem={({ item }) => (
                 <Pressable
                   onPress={() => setSelectedCategory(item)}
                   style={[
-                    styles.categoryButton,
-                    selectedCategory === item && styles.selectedCategory,
+                    themedStyles.categoryButton,
+                    selectedCategory === item && themedStyles.selectedCategory,
                   ]}
                 >
                   <Text
                     style={[
-                      styles.categoryText,
-                      selectedCategory === item && styles.selectedCategoryText,
+                      themedStyles.categoryText,
+                      selectedCategory === item &&
+                        themedStyles.selectedCategoryText,
                     ]}
                   >
                     {item.toUpperCase()}
@@ -156,9 +184,11 @@ export default function ProductsScreen() {
               )}
             />
 
-            <View style={styles.productsHeading}>
-              <Text style={styles.sectionTitle}>ALL PRODUCTS</Text>
-              <Text style={styles.count}>{filteredProducts.length} items</Text>
+            <View style={themedStyles.productsHeading}>
+              <Text style={themedStyles.sectionTitle}>ALL PRODUCTS</Text>
+              <Text style={themedStyles.count}>
+                {filteredProducts.length} items
+              </Text>
             </View>
           </View>
         }
@@ -186,88 +216,112 @@ export default function ProductsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  list: {
-    paddingHorizontal: 10,
-    paddingBottom: 24,
-    flexGrow: 1,
-  },
-  row: {
-    gap: 12,
-  },
-  brandHeading: {
-    color: Colors.accent,
-    fontSize: 18,
-    textAlign: "center",
-    fontWeight: "900",
-    letterSpacing: 3,
-    marginTop: 16,
-  },
-  heading: {
-    color: Colors.text,
-    fontSize: 27,
-    fontWeight: "bold",
-    marginTop: 8,
-  },
-  subtitle: {
-    color: Colors.muted,
-    fontSize: 14,
-    marginTop: 5,
-  },
-  search: {
-    backgroundColor: Colors.card,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 13,
-    color: Colors.text,
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  sectionTitle: {
-    color: Colors.text,
-    fontSize: 13,
-    fontWeight: "bold",
-    letterSpacing: 1,
-    marginTop: 14,
-  },
-  categoryList: {
-    gap: 8,
-    paddingVertical: 13,
-  },
-  categoryButton: {
-    backgroundColor: Colors.card,
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  selectedCategory: {
-    backgroundColor: Colors.accent,
-    borderColor: Colors.accent,
-  },
-  categoryText: {
-    color: Colors.muted,
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  selectedCategoryText: {
-    color: "#FFFFFF",
-  },
-  productsHeading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 8,
-    marginBottom: 14,
-  },
-  count: {
-    color: Colors.muted,
-    fontSize: 12,
-  },
-});
+function createStyles(colors: typeof ThemeColors.dark) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    list: {
+      paddingHorizontal: 10,
+      paddingBottom: 24,
+      flexGrow: 1,
+    },
+    row: {
+      gap: 12,
+    },
+    topBar: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative",
+      marginTop: 16,
+    },
+    themeButton: {
+      position: "absolute",
+      right: 4,
+      padding: 9,
+      borderRadius: 22,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    brandHeading: {
+      color: colors.accent,
+      fontSize: 18,
+      textAlign: "center",
+      fontWeight: "900",
+      fontStyle: "italic",
+      letterSpacing: 3,
+    },
+    heading: {
+      color: colors.text,
+      fontSize: 27,
+      fontWeight: "bold",
+      marginTop: 8,
+    },
+    subtitle: {
+      color: colors.muted,
+      fontSize: 14,
+      marginTop: 5,
+    },
+    searchContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: colors.card,
+      borderRadius: 10,
+      paddingHorizontal: 13,
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    search: {
+      flex: 1,
+      paddingHorizontal: 10,
+      paddingVertical: 13,
+      color: colors.text,
+    },
+    sectionTitle: {
+      color: colors.text,
+      fontSize: 13,
+      fontWeight: "bold",
+      letterSpacing: 1,
+      marginTop: 14,
+    },
+    categoryList: {
+      gap: 8,
+      paddingVertical: 13,
+    },
+    categoryButton: {
+      backgroundColor: colors.card,
+      borderRadius: 20,
+      paddingHorizontal: 14,
+      paddingVertical: 9,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedCategory: {
+      backgroundColor: colors.accent,
+      borderColor: colors.accent,
+    },
+    categoryText: {
+      color: colors.muted,
+      fontSize: 10,
+      fontWeight: "bold",
+    },
+    selectedCategoryText: {
+      color: "#FFFFFF",
+    },
+    productsHeading: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop: 8,
+      marginBottom: 14,
+    },
+    count: {
+      color: colors.muted,
+      fontSize: 12,
+    },
+  });
+}
