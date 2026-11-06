@@ -194,6 +194,10 @@ Note: APKs signed with different signing keys generally cannot update one anothe
 
 ![Product Details](assets/screenshots/img 6.jpeg)
 
+### Product Details
+
+![Product Details](assets/screenshots/img 6.jpeg)
+
 ## Project Information
 
 - **Platform:** Android
