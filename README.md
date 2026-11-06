@@ -172,27 +172,27 @@ Note: APKs signed with different signing keys generally cannot update one anothe
 
 ### Products — Dark Mode
 
-![Products Dark Mode](assets/screenshots/img1.jpeg)
+![Products Dark Mode](assets/screenshots/img 1.jpeg)
 
 ### Products — Light Mode
 
-![Products Light Mode](assets/screenshots/img2.jpeg)
+![Products Light Mode](assets/screenshots/img 2.jpeg)
 
 ### Favorites
 
-![Favorites](assets/screenshots/img3.jpeg)
+![Favorites](assets/screenshots/img 3.jpeg)
 
 ### Product Image
 
-![Product Image](assets/screenshots/img4.jpeg)
+![Product Image](assets/screenshots/img 4.jpeg)
 
 ### Camera Options
 
-![Camera Options](assets/screenshots/img5.jpeg)
+![Camera Options](assets/screenshots/img 5.jpeg)
 
 ### Product Details
 
-![Product Details](assets/screenshots/img6.jpeg)
+![Product Details](assets/screenshots/img 6.jpeg)
 
 ## Project Information
 
