@@ -175,10 +175,6 @@ Note: APKs signed with different signing keys generally cannot update one anothe
 - [Camera Options](assets/Screenshots/img%205.jpeg)
 - [Product Details](assets/Screenshots/img%206.jpeg)
 
-### Product Details
-
-![Product Details](assets/screenshots/img 6.jpeg)
-
 ## Project Information
 
 - **Platform:** Android
