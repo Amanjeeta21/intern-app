@@ -168,31 +168,12 @@ Note: APKs signed with different signing keys generally cannot update one anothe
 
 [Product Catalog – Preview APK](https://expo.dev/accounts/amanjeeta/projects/product-catalog/builds/8d62544d-990c-4916-a036-cf068ff8f8c5)
 
-## Screenshots
-
-### Products — Dark Mode
-
-![Products Dark Mode](assets/screenshots/img 1.jpeg)
-
-### Products — Light Mode
-
-![Products Light Mode](assets/screenshots/img 2.jpeg)
-
-### Favorites
-
-![Favorites](assets/screenshots/img 3.jpeg)
-
-### Product Image
-
-![Product Image](assets/screenshots/img 4.jpeg)
-
-### Camera Options
-
-![Camera Options](assets/screenshots/img 5.jpeg)
-
-### Product Details
-
-![Product Details](assets/screenshots/img 6.jpeg)
+- [Products — Dark Mode](assets/Screenshots/img%201.jpeg)
+- [Products — Light Mode](assets/Screenshots/img%202.jpeg)
+- [Favorites](assets/Screenshots/img%203.jpeg)
+- [Product Image](assets/Screenshots/img%204.jpeg)
+- [Camera Options](assets/Screenshots/img%205.jpeg)
+- [Product Details](assets/Screenshots/img%206.jpeg)
 
 ### Product Details
 
